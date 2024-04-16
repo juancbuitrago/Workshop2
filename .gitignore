@@ -1,0 +1,6 @@
+workshop2
+__pycache__
+.ipynb_checkpoints
+logs
+config.json
+plugins
