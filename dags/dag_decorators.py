@@ -1,7 +1,7 @@
 # dag_decorators.py
 from datetime import timedelta, datetime
 from airflow.decorators import dag, task
-from etl import extract, transform, load
+from etl import extract_spotify, extract_and_load_grammys, transform, load
 
 default_args = {
     'owner': 'airflow',
@@ -14,25 +14,29 @@ default_args = {
     'retry_delay': timedelta(minutes=1)
 }
 
-@dag(default_args=default_args, description='ETL DAG for Spotify data', schedule_interval='@daily', tags=['spotify'])
-def spotify_etl_dag():
+@dag(default_args=default_args, schedule_interval='@daily', tags=['spotify', 'grammys'])
+def etl_dag():
     
     @task
-    def extract_task():
-        return extract()
+    def extract_spotify_task():
+        return extract_spotify()
 
     @task
-    def transform_task(spotify_df):
-        return transform(spotify_df)
+    def extract_and_load_grammys_task():
+        extract_and_load_grammys()
+        return 'Grammys data loaded'
 
     @task
-    def load_task(spotify_df):
-        load(spotify_df)
+    def transform_task(data):
+        return transform(data)
 
-    # Define the workflow
-    spotify_data = extract_task()
-    transformed_data = transform_task(spotify_data)
-    load_task(transformed_data)
+    @task
+    def load_task(data):
+        load(data)
 
-# Instantiate the DAG
-spotify_etl_workflow = spotify_etl_dag()
+    spotify_data = extract_spotify_task()
+    transform_spotify_data = transform_task(spotify_data)
+    load_spotify_data = load_task(transform_spotify_data)
+    load_grammys_data = extract_and_load_grammys_task()
+
+etl_workflow = etl_dag()

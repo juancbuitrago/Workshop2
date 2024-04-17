@@ -1,11 +1,27 @@
 # etl.py
-import pandas as pd
+import json
 import logging
+import pandas as pd
+from sqlalchemy import create_engine
 
-def extract():
+
+def extract_spotify():
     spotify_df = pd.read_csv('/opt/airflow/data/spotify_dataset.csv')
     logging.info("Spotify data extraction finished")
     return spotify_df
+
+
+def extract_and_load_grammys():
+    with open('/opt/airflow/config/config.json', 'r') as file:
+        config = json.load(file)
+    
+    engine = create_engine(f'postgresql+pg8000://{config["user"]}:{config["password"]}@{config["host"]}:{config["port"]}/{config["dbname"]}')
+    
+    grammy_df = pd.read_csv('/opt/airflow/data/the_grammy_awards.csv')
+    
+    grammy_df.to_sql('grammys', engine, index=False, if_exists='replace')
+    
+    logging.info("Grammy data successfully inserted into database.")
 
 def transform(spotify_df):
 
