@@ -1,12 +1,13 @@
 # dag_decorators.py
 from datetime import timedelta, datetime
 from airflow.decorators import dag, task
-from etl import extract_spotify, extract_and_load_grammys, transform, load
+from etl import (extract_spotify, load_grammys_to_db, extract_grammys,
+                transform_spotify, transform_grammys, merge_datasets, load_to_db)
 
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
-    'start_date': datetime(2024, 4, 16),  # Adjust the start date as needed
+    'start_date': datetime(2024, 4, 16),
     'email': ['airflow@example.com'],
     'email_on_failure': False,
     'email_on_retry': False,
@@ -14,29 +15,41 @@ default_args = {
     'retry_delay': timedelta(minutes=1)
 }
 
-@dag(default_args=default_args, schedule_interval='@daily', tags=['spotify', 'grammys'])
-def etl_dag():
+@dag(default_args=default_args, description='ETL DAG for merging Spotify and Grammy data', schedule_interval='@daily', tags=['data merging'])
+def data_merging_etl_dag():
     
     @task
     def extract_spotify_task():
         return extract_spotify()
 
     @task
-    def extract_and_load_grammys_task():
-        extract_and_load_grammys()
-        return 'Grammys data loaded'
+    def load_and_extract_grammys_task():
+        load_grammys_to_db()
+        return extract_grammys()
 
     @task
-    def transform_task(data):
-        return transform(data)
+    def transform_spotify_task(spotify_df):
+        return transform_spotify(spotify_df)
 
     @task
-    def load_task(data):
-        load(data)
+    def transform_grammys_task(grammy_df):
+        return transform_grammys(grammy_df)
+
+    @task
+    def merge_datasets_task(spotify_df, grammy_df):
+        return merge_datasets(spotify_df, grammy_df)
+
+    @task
+    def load_to_db_task(final_merged_df):
+        table_name = 'merged_data'
+        load_to_db(final_merged_df, table_name)
 
     spotify_data = extract_spotify_task()
-    transform_spotify_data = transform_task(spotify_data)
-    load_spotify_data = load_task(transform_spotify_data)
-    load_grammys_data = extract_and_load_grammys_task()
+    grammy_data = load_and_extract_grammys_task()
+    transformed_spotify_data = transform_spotify_task(spotify_data)
+    transformed_grammy_data = transform_grammys_task(grammy_data)
+    merged_data = merge_datasets_task(transformed_spotify_data, transformed_grammy_data)
+    
+    load_to_db_task(merged_data)
 
-etl_workflow = etl_dag()
+spotify_grammy_etl_workflow = data_merging_etl_dag()
