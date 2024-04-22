@@ -2,6 +2,8 @@ workshop2
 __pycache__
 .ipynb_checkpoints
 logs
+config_EDA.json
 config.json
 plugins
 outputs
+service_account.json
