@@ -125,8 +125,8 @@ If you already have all the requirements, you only need to run Docker Desktop an
 - Example of transformations
 - Exploratory Data Analysis
 - Graphics
-## Analysis & Visualization <a name="analysis-visualizations"></a> ###
+## Analysis & Visualization of the merged data <a name="analysis-visualizations"></a> ###
 
-### These visualizations can be seen in the **[Dashboard of candidates hired](https://github.com/juancbuitrago/Workshop2/blob/main/docs/dashboard.pdf)**.
+### These visualizations can be seen in the **[Dashboard of merged data](https://github.com/juancbuitrago/Workshop2/blob/main/docs/dashboard.pdf)**.
 
 # _[Clone me](https://github.com/juancbuitrago/Workshop1.git) and see how powerful the data can be!_
