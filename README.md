@@ -1,4 +1,4 @@
-# Workshop2# ETL Workshop 1 #
+# ETL Workshop 2 #
 ## Structure ##
 <div style="background-color: #000000;font-size: 14px ;color: #FFFFFF; padding: 10px; border: 1px solid #ccc">
     <pre>
