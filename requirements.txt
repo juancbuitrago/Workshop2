@@ -1,7 +1,6 @@
 asn1crypto==1.5.1
 asttokens==2.4.1
 colorama==0.4.6
-# comm==0.2.2 - This package does not exist in PyPI, you might want to remove it or correct it if it's a typo.
 contourpy==1.2.1
 cycler==0.12.1
 debugpy==1.8.1
@@ -9,7 +8,6 @@ decorator==5.1.1
 executing==2.0.1
 fonttools==4.51.0
 greenlet==3.0.3
-# install==1.3.5 - This package does not exist in PyPI, you might want to remove it or correct it if it's a typo.
 ipykernel==6.29.4
 ipython  # Removed the version pinning to let pip find a compatible version
 jedi==0.19.1
@@ -34,7 +32,6 @@ Pygments==2.17.2
 pyparsing==3.1.2
 python-dateutil==2.9.0.post0
 pytz==2024.1
-# pywin32==306 - This is for Windows, not needed in Airflow Docker which is Linux-based
 pyzmq==25.1.2
 scramp==1.4.5
 seaborn==0.13.2
