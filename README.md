@@ -25,7 +25,6 @@
             ├── EDA_001.ipynb
             └── EDA_002.ipynb
         
-    </pre>
 </div>
 
 ## Overview ##
