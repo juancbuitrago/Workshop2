@@ -90,11 +90,12 @@ ensure you have the following programs installed with which the entire project p
    - **[Docker Desktop](https://www.docker.com/products/docker-desktop/)**
 
 If you already have all the requirements, you only need to run Docker Desktop and then:
-run
-``` 
-'docker-compose up'
-``` 
-in the terminal of your project.
+1. Go to the root of the repository
+2. Run `docker-compose up airflow-init`
+3. Run `docker-compose up`
+4. Go to: http://localhost:8080/
+5. Log in with the credentials: airflow airflow
+6. Run the dag: data_merging_etl_dag
 
 ## Grammys EDA <a name="data-transformation"></a> ##
 
